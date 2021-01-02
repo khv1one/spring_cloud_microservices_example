@@ -1,0 +1,41 @@
+version: '2.1'
+services:
+  config-server:
+    container_name: config-server
+    build:
+      context: ""
+      dockerfile: system/config-server/docker/Dockerfile.config_server
+    image: config-server:latest
+    expose:
+      - 8888
+    ports:
+      - 8888:8888
+    networks:
+      - spring-cloud-network
+    logging:
+      driver: json-file
+
+  service-registry-server:
+    container_name: service-registry-server
+    build:
+      context: .
+      dockerfile: system/service-registry-server/docker/Dockerfile.service_registry_server
+    image: service-registry-server:latest
+    expose:
+      - 8761
+    ports:
+      - 8761:8761
+    networks:
+      - spring-cloud-network
+    links:
+      - config-server
+    depends_on:
+      - config-server
+    logging:
+      driver: json-file
+networks:
+  spring-cloud-network:
+    driver: bridge
+volumes:
+  spring-cloud-config-repo:
+    external: false
