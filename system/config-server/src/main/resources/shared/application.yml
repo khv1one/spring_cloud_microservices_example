@@ -1,0 +1,16 @@
+eureka:
+  instance:
+    prefer-ip-address: false
+  client:
+    serviceUrl:
+      defaultZone: http://service-registry-server:8761/eureka/
+
+#security:
+#  oauth2:
+#    resource:
+#      user-info-uri: http://localhost:8080/uaa/user/current
+#      token-info-uri: http://localhost:8080/uaa/oauth/check_token
+
+logging:
+  level:
+    org.springframework.security: DEBUG

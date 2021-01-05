@@ -1,15 +1,13 @@
-package example.microservices.configserver
+package example.microsevices.gatewayservice
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
-import org.springframework.cloud.config.server.EnableConfigServer
 
-@SpringBootApplication
-@EnableConfigServer
 @EnableDiscoveryClient
-class ConfigServerApplication
+@SpringBootApplication
+class ServiceRegistryServerApplication
 
 fun main(args: Array<String>) {
-	runApplication<ConfigServerApplication>(*args)
+	runApplication<ServiceRegistryServerApplication>(*args)
 }

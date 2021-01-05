@@ -1,25 +1,11 @@
 version: '2.1'
 services:
-  config-server:
-    container_name: config-server
-    build:
-      context: ""
-      dockerfile: system/config-server/docker/Dockerfile.config_server
-    image: config-server:latest
-    expose:
-      - 8888
-    ports:
-      - 8888:8888
-    networks:
-      - spring-cloud-network
-    logging:
-      driver: json-file
 
   service-registry-server:
     container_name: service-registry-server
     build:
       context: .
-      dockerfile: system/service-registry-server/docker/Dockerfile.service_registry_server
+      dockerfile: system/service-registry-server/docker/Dockerfile
     image: service-registry-server:latest
     expose:
       - 8761
@@ -27,12 +13,76 @@ services:
       - 8761:8761
     networks:
       - spring-cloud-network
+    logging:
+      driver: json-file
+
+  config-server:
+    container_name: config-server
+    build:
+      context: ""
+      dockerfile: system/config-server/docker/Dockerfile
+    image: config-server:latest
+    expose:
+      - 8888
+    ports:
+      - 8888:8888
+    networks:
+      - spring-cloud-network
     links:
+      - service-registry-server
+    depends_on:
+      - service-registry-server
+    logging:
+      driver: json-file
+    environment:
+      WAIT_HOSTS: service-registry-server:8761
+
+  gateway-service:
+    container_name: gateway-service
+    build:
+      context: ""
+      dockerfile: system/gateway-service/docker/Dockerfile
+    image: gateway-service:latest
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    networks:
+      - spring-cloud-network
+    links:
+      - service-registry-server
       - config-server
     depends_on:
+      - service-registry-server
       - config-server
     logging:
       driver: json-file
+    environment:
+      WAIT_HOSTS: service-registry-server:8761, config-server:8888
+
+  account-service:
+    container_name: account-service
+    build:
+      context: ""
+      dockerfile: service/account-service/server/docker/Dockerfile
+    image: account-service:latest
+    expose:
+      - 9001
+    ports:
+      - 9001:9001
+    networks:
+      - spring-cloud-network
+    links:
+      - service-registry-server
+      - config-server
+    depends_on:
+      - service-registry-server
+      - config-server
+    logging:
+      driver: json-file
+    environment:
+      WAIT_HOSTS: service-registry-server:8761, config-server:8888
+
 networks:
   spring-cloud-network:
     driver: bridge

@@ -10,8 +10,8 @@ java.sourceCompatibility = Version.javaVersion
 
 dependencies {
     commonKotlinDependencies()
-    implementation(Package.springEurekaClient)
-	implementation(Package.springConfigServer)
+    clientDependencies()
+    implementation(Package.springGateway)
     withTestImpl()
 }
 

@@ -1,9 +1,9 @@
-package example.microsevices.serviceregistryserver
+package example.microsevices.gatewayservice
 
 import org.junit.jupiter.api.Test
 
 //@SpringBootTest
-class ServiceRegistryServerApplicationTests {
+class GatewayApplicationTests {
     @Test
     fun contextLoads() {
     }

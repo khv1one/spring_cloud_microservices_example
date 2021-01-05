@@ -1,12 +1,13 @@
-package example.microservices.configserver
+package example.microservices.accountservice
 
 import org.junit.jupiter.api.Test
 
 //@SpringBootTest
-class ConfigServerApplicationTests {
+class AccountServiceApplication {
 
 	@Test
 	fun contextLoads() {
+
 	}
 
 }

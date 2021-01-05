@@ -1,3 +1,10 @@
+eureka:
+  instance:
+    prefer-ip-address: false
+  client:
+    serviceUrl:
+      defaultZone: http://service-registry-server:8761/eureka/
+
 spring:
   application:
     name: config-server
